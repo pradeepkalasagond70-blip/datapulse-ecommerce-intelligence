@@ -338,7 +338,7 @@ def _build_delivery_summary(
     average_delivery_days = (
         float(valid_delivery_days.mean())
         if not valid_delivery_days.empty
-        else 0.0
+        else None
     )
 
     median_delivery_days = (
@@ -382,13 +382,22 @@ def _build_delivery_summary(
         "late_orders": int(late_orders),
         "on_time_rate": round(on_time_rate, 2),
         "late_rate": round(late_rate, 2),
-        "average_delivery_days": round(
-            average_delivery_days,
+        "delivery_rate_pct": round(
+            _safe_percentage(
+                delivered_orders,
+                total_orders,
+            ),
             2,
         ),
-        "median_delivery_days": round(
-            median_delivery_days,
-            2,
+        "average_delivery_days": (
+            round(average_delivery_days, 2)
+            if average_delivery_days is not None
+            else None
+        ),
+        "median_delivery_days": (
+            round(median_delivery_days, 2)
+            if not valid_delivery_days.empty
+            else None
         ),
         "average_delay_days": round(
             average_delay_days,

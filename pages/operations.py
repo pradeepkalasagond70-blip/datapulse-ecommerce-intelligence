@@ -530,6 +530,7 @@ return_rate = first_existing(
     [
         "return_rate_pct",
         "returns_rate_pct",
+        "return_rate",
     ],
     None,
 )

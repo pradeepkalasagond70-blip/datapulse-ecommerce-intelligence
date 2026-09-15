@@ -481,6 +481,7 @@ total_products = first_existing(
     summary,
     [
         "total_products",
+        "products",
         "unique_products",
         "product_count",
     ],
@@ -491,6 +492,7 @@ total_categories = first_existing(
     summary,
     [
         "total_categories",
+        "categories",
         "unique_categories",
         "category_count",
     ],
@@ -501,6 +503,7 @@ product_revenue = first_existing(
     summary,
     [
         "total_revenue",
+        "total_product_revenue",
         "product_revenue",
         "revenue",
     ],
@@ -511,6 +514,7 @@ product_profit = first_existing(
     summary,
     [
         "total_profit",
+        "total_product_profit",
         "product_profit",
         "profit",
     ],
@@ -521,6 +525,7 @@ units_sold = first_existing(
     summary,
     [
         "total_quantity",
+        "total_product_quantity",
         "quantity",
         "units_sold",
     ],

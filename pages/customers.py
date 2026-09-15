@@ -438,6 +438,11 @@ summary = results.get(
     {},
 ) or {}
 
+repeat_customer = results.get(
+    "repeat_customer",
+    {},
+) or {}
+
 
 total_customers = first_existing(
     summary,
@@ -456,7 +461,11 @@ repeat_customers = first_existing(
         "repeat_customers",
         "repeat_customer_count",
     ],
-    0,
+    first_existing(
+        repeat_customer,
+        ["repeat_customers"],
+        0,
+    ),
 )
 
 repeat_rate = first_existing(
@@ -473,6 +482,7 @@ customer_revenue = first_existing(
     summary,
     [
         "total_revenue",
+        "total_customer_revenue",
         "customer_revenue",
         "revenue",
     ],
@@ -483,6 +493,7 @@ customer_profit = first_existing(
     summary,
     [
         "total_profit",
+        "total_customer_profit",
         "customer_profit",
         "profit",
     ],
@@ -503,6 +514,7 @@ avg_customer_value = first_existing(
     summary,
     [
         "average_customer_value",
+        "average_customer_revenue",
         "avg_customer_value",
         "revenue_per_customer",
     ],

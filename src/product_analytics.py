@@ -1488,6 +1488,14 @@ def run_product_analytics(
         all_products["revenue"].sum()
     )
 
+    total_product_quantity = _safe_float(
+        all_products["quantity"].sum()
+    )
+
+    total_product_profit = _safe_float(
+        all_products["profit"].sum()
+    )
+
     average_product_revenue = (
         total_product_revenue
         / product_count
@@ -1524,6 +1532,14 @@ def run_product_analytics(
 
             "total_product_revenue": _round(
                 total_product_revenue
+            ),
+
+            "total_product_quantity": _round(
+                total_product_quantity
+            ),
+
+            "total_product_profit": _round(
+                total_product_profit
             ),
 
             "average_product_revenue": _round(

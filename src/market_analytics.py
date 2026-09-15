@@ -40,6 +40,9 @@ REQUIRED_CORE_FIELDS = (
 )
 
 OPTIONAL_FIELDS = (
+    "order_id",
+    "order_date",
+    "sales_amount",
     "quantity",
     "unit_price",
     "cost",
@@ -52,6 +55,8 @@ OPTIONAL_FIELDS = (
     "product_id",
     "product_name",
     "category",
+    "customer_city",
+    "customer_state",
 )
 
 
@@ -254,6 +259,14 @@ def _prepare_dataframe(
             working[field] = _safe_text(
                 working[field]
             )
+
+    # Use mapped geographic dimensions when explicit market and region
+    # fields are unavailable.
+    if "market" not in working.columns and "customer_city" in working.columns:
+        working["market"] = working["customer_city"]
+
+    if "region" not in working.columns and "customer_state" in working.columns:
+        working["region"] = working["customer_state"]
 
     return working
 
@@ -927,6 +940,15 @@ def _build_summary(
             float(seller_performance.iloc[0]["revenue"])
             if not seller_performance.empty
             else 0.0
+        ),
+        "top_seller_revenue_share_pct": (
+            float(
+                seller_performance.iloc[0]["revenue"]
+                / revenue
+                * 100
+            )
+            if not seller_performance.empty and revenue
+            else None
         ),
         "top_market": (
             market_performance.iloc[0]["market"]

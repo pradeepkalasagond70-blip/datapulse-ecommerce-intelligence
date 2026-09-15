@@ -1977,6 +1977,10 @@ def run_campaign_impact(
         ].sum()
     )
 
+    campaign_orders = int(
+        campaign_performance["orders"].sum()
+    )
+
     campaign_cost = _safe_float(
         campaign_performance[
             "campaign_cost"
@@ -2018,6 +2022,8 @@ def run_campaign_impact(
 
         "summary": {
             "campaigns": campaigns,
+
+            "campaign_orders": campaign_orders,
 
             "campaign_revenue": _round(
                 campaign_revenue

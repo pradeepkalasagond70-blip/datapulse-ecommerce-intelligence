@@ -481,6 +481,7 @@ total_sellers = first_existing(
     summary,
     [
         "total_sellers",
+        "sellers",
         "seller_count",
         "unique_sellers",
     ],
@@ -491,6 +492,7 @@ total_markets = first_existing(
     summary,
     [
         "total_markets",
+        "markets",
         "market_count",
         "unique_markets",
     ],
@@ -501,6 +503,7 @@ total_regions = first_existing(
     summary,
     [
         "total_regions",
+        "regions",
         "region_count",
         "unique_regions",
     ],

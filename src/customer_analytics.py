@@ -1422,6 +1422,10 @@ def run_customer_analytics(
         ].mean()
     )
 
+    total_profit = _safe_float(
+        customer_metrics["profit"].sum()
+    )
+
     high_risk_customers = int(
         (
             customer_metrics[
@@ -1476,8 +1480,17 @@ def run_customer_analytics(
 
         "summary": {
             "customers": total_customers,
+            "repeat_customers": repeat_customer[
+                "repeat_customers"
+            ],
             "total_customer_revenue": _round(
                 total_revenue
+            ),
+            "total_customer_profit": _round(
+                total_profit
+            ),
+            "average_customer_value": _round(
+                average_customer_revenue
             ),
             "average_customer_revenue": _round(
                 average_customer_revenue

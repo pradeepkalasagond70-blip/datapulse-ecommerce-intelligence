@@ -445,9 +445,7 @@ _render_html(
     f"""
 <div class="dp-card">
     <div class="dp-card-title">Executive Decision Summary</div>
-    <div class="dp-card-subtitle">
-        A plain-English view of the most important business signals and actions.
-    </div>
+    <div class="dp-card-subtitle"></div>
 </div>
 
 <div class="dp-decision-grid">

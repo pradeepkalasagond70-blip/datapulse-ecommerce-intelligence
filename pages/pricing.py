@@ -484,10 +484,13 @@ total_revenue = summary.get(
 avg_discount = summary.get(
     "average_discount",
     summary.get(
-        "avg_discount",
+        "average_discount_pct",
         summary.get(
-            "discount_rate",
-            0,
+            "avg_discount",
+            summary.get(
+                "discount_rate",
+                0,
+            ),
         ),
     ),
 )

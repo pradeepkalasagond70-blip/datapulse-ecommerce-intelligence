@@ -540,6 +540,15 @@ top_seller_share = first_existing(
     None,
 )
 
+top_seller = first_existing(
+    summary,
+    [
+        "top_seller",
+        "leading_seller",
+    ],
+    None,
+)
+
 
 # ============================================================
 # KPI ROW
@@ -590,9 +599,13 @@ with cols[4]:
 with cols[5]:
 
     metric_card(
-        "Top Seller Share",
-        fmt_percent(top_seller_share),
-        "Revenue concentration",
+        "Top Seller",
+        top_seller or "—",
+        (
+            f"{fmt_percent(top_seller_share)} of revenue"
+            if top_seller_share is not None
+            else "Leading seller by revenue"
+        ),
     )
 
 

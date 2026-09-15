@@ -363,10 +363,22 @@ avg_rating = _safe_float(
     summary.get("average_rating", summary.get("avg_rating", 0))
 )
 positive = _safe_float(
-    summary.get("positive_sentiment_pct", summary.get("positive_pct", 0))
+    summary.get(
+        "positive_sentiment_pct",
+        summary.get(
+            "positive_pct",
+            summary.get("positive_rate", 0),
+        ),
+    )
 )
 negative = _safe_float(
-    summary.get("negative_sentiment_pct", summary.get("negative_pct", 0))
+    summary.get(
+        "negative_sentiment_pct",
+        summary.get(
+            "negative_pct",
+            summary.get("negative_rate", 0),
+        ),
+    )
 )
 
 _render_html(

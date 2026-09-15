@@ -478,6 +478,33 @@ def _build_summary(
         discounted_rows = 0
         discount_rate = 0.0
 
+    discounted_rows_mask = (
+        working["discount_pct"] > 0
+        if "discount_pct" in working.columns
+        else pd.Series(False, index=working.index)
+    )
+
+    discounted_revenue = float(
+        working.loc[
+            discounted_rows_mask,
+            "sales_amount",
+        ].sum()
+    )
+
+    discounted_profit = float(
+        working.loc[
+            discounted_rows_mask,
+            "profit",
+        ].sum()
+    ) if "profit" in working.columns else 0.0
+
+    non_discounted_profit = float(
+        working.loc[
+            ~discounted_rows_mask,
+            "profit",
+        ].sum()
+    ) if "profit" in working.columns else 0.0
+
     return {
         "revenue": revenue,
         "quantity": quantity,
@@ -500,6 +527,11 @@ def _build_summary(
             average_discount,
             2,
         ),
+
+        "average_discount": round(
+            average_discount,
+            2,
+        ),
         "median_discount_pct": round(
             median_discount,
             2,
@@ -509,6 +541,14 @@ def _build_summary(
             2,
         ),
         "discounted_rows": discounted_rows,
+        "discounted_revenue": round(
+            discounted_revenue,
+            2,
+        ),
+        "profit_impact": round(
+            discounted_profit - non_discounted_profit,
+            2,
+        ),
     }
 
 

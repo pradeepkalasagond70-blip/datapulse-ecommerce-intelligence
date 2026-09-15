@@ -114,6 +114,7 @@ def _prepare_dataframe(
         "order_status",
         "sales_amount",
         "quantity",
+        "delivery_days",
         "seller_id",
         "seller_name",
         "region",
@@ -145,6 +146,7 @@ def _prepare_dataframe(
     for field in [
         "sales_amount",
         "quantity",
+        "delivery_days",
     ]:
         if field in working.columns:
             working[field] = _safe_numeric(
@@ -220,7 +222,12 @@ def _calculate_delivery_metrics(
 
     result = working.copy()
 
-    if (
+    if "delivery_days" in result.columns:
+        result["total_delivery_days"] = _safe_numeric(
+            result["delivery_days"]
+        )
+
+    elif (
         "shipping_date" in result.columns
         and "delivery_date" in result.columns
     ):
@@ -989,8 +996,11 @@ def _build_capabilities(
             "return_flag" in working.columns
         ),
         "delivery_duration_analysis": (
-            "order_date" in working.columns
-            and "delivery_date" in working.columns
+            "delivery_days" in working.columns
+            or (
+                "order_date" in working.columns
+                and "delivery_date" in working.columns
+            )
         ),
     }
 

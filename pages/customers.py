@@ -474,6 +474,7 @@ repeat_rate = first_existing(
         "repeat_customer_rate_pct",
         "repeat_rate_pct",
         "repeat_rate",
+        "repeat_customer_rate",
     ],
     None,
 )

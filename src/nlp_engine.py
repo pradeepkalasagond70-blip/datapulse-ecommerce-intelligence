@@ -1127,6 +1127,11 @@ def _build_rating_sentiment_matrix(
         .reset_index(
             name="reviews"
         )
+        .rename(
+            columns={
+                "review_rating": "rating",
+            }
+        )
     )
 
     total = result["reviews"].sum()

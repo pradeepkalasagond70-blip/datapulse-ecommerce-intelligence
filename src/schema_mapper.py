@@ -75,12 +75,13 @@ CANONICAL_FIELDS: Tuple[str, ...] = (
     # --------------------------------------------------------
     # Campaign Impact
     # --------------------------------------------------------
-    "campaign_id",
     "campaign_name",
+    "campaign_id",
+    "campaign_cost",
+    "campaign_baseline_sales",
     "campaign_type",
     "campaign_start_date",
     "campaign_end_date",
-    "campaign_cost",
     "discount",
 
     # --------------------------------------------------------
@@ -95,6 +96,7 @@ CANONICAL_FIELDS: Tuple[str, ...] = (
     # Delivery / Operations
     # --------------------------------------------------------
     "shipping_date",
+    "delivery_days",
     "delivery_date",
     "promised_delivery_date",
     "delivery_status",
@@ -105,8 +107,8 @@ CANONICAL_FIELDS: Tuple[str, ...] = (
     # --------------------------------------------------------
     # Reviews / NLP
     # --------------------------------------------------------
-    "review_id",
     "review_text",
+    "review_id",
     "review_rating",
     "review_date",
 
@@ -155,8 +157,10 @@ FIELD_GROUPS: Dict[str, Tuple[str, ...]] = {
         "brand",
     ),
     "campaign": (
-        "campaign_id",
         "campaign_name",
+        "campaign_id",
+        "campaign_cost",
+        "campaign_baseline_sales",
         "campaign_type",
         "campaign_start_date",
         "campaign_end_date",
@@ -174,6 +178,7 @@ FIELD_GROUPS: Dict[str, Tuple[str, ...]] = {
     ),
     "delivery": (
         "shipping_date",
+        "delivery_days",
         "delivery_date",
         "promised_delivery_date",
         "delivery_status",
@@ -182,8 +187,8 @@ FIELD_GROUPS: Dict[str, Tuple[str, ...]] = {
         "return_date",
     ),
     "reviews": (
-        "review_id",
         "review_text",
+        "review_id",
         "review_rating",
         "review_date",
     ),
@@ -492,6 +497,13 @@ FIELD_ALIASES: Dict[str, Tuple[str, ...]] = {
         "promotion_cost",
     ),
 
+    "campaign_baseline_sales": (
+        "campaign_baseline_sales",
+        "baseline_sales",
+        "campaign_baseline",
+        "baseline_revenue",
+    ),
+
     "discount": (
         "discount",
         "discount_amount",
@@ -557,6 +569,13 @@ FIELD_ALIASES: Dict[str, Tuple[str, ...]] = {
         "delivered_date",
         "actual_delivery_date",
         "received_date",
+    ),
+
+    "delivery_days": (
+        "delivery_days",
+        "delivery_duration",
+        "shipping_days",
+        "transit_days",
     ),
 
     "promised_delivery_date": (
@@ -900,6 +919,29 @@ def _best_match(
 
     score, column = candidates[0]
 
+    normalized_column = normalize_column_name(column)
+
+    # Prevent broad fuzzy matches from assigning descriptive fields to
+    # identifier/date fields with similar words.
+    fuzzy_requirements = {
+        "campaign_id": ("id", "no", "number"),
+        "campaign_type": ("type", "promotion", "marketing"),
+        "campaign_cost": ("cost", "spend", "ad"),
+        "delivery_date": ("date", "delivered", "received", "actual"),
+        "review_id": ("id", "no", "number", "feedback"),
+    }
+
+    required_terms = fuzzy_requirements.get(
+        canonical_field,
+        (),
+    )
+
+    if required_terms and not any(
+        term in normalized_column
+        for term in required_terms
+    ):
+        return None, score, "none"
+
     # Conservative threshold.
     # We don't want an incorrect mapping to silently damage
     # downstream analytics or ML.
@@ -974,7 +1016,9 @@ def _type_compatibility(
         "profit",
         "customer_age",
         "campaign_cost",
+        "campaign_baseline_sales",
         "discount",
+        "delivery_days",
         "review_rating",
     }
 

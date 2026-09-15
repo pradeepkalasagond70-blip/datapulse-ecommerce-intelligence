@@ -266,6 +266,12 @@ def build_campaign_base(
         "campaign_cost",
     )
 
+    baseline_sales = _numeric(
+        df,
+        mapping,
+        "campaign_baseline_sales",
+    )
+
     discount = _numeric(
         df,
         mapping,
@@ -301,6 +307,12 @@ def build_campaign_base(
             "campaign_cost": (
                 campaign_cost
                 if campaign_cost is not None
+                else np.nan
+            ),
+
+            "baseline_sales": (
+                baseline_sales
+                if baseline_sales is not None
                 else np.nan
             ),
 
@@ -430,6 +442,11 @@ def calculate_campaign_performance(
 
         "campaign_cost": (
             "campaign_cost",
+            "sum",
+        ),
+
+        "baseline_sales": (
+            "baseline_sales",
             "sum",
         ),
 
@@ -608,6 +625,7 @@ def calculate_campaign_performance(
         "quantity",
         "profit",
         "campaign_cost",
+        "baseline_sales",
         "average_discount",
         "orders",
         "customers",
@@ -1987,6 +2005,12 @@ def run_campaign_impact(
         ].sum()
     )
 
+    baseline_sales = _safe_float(
+        campaign_performance[
+            "baseline_sales"
+        ].sum()
+    )
+
     valid_roas = campaign_performance[
         "roas"
     ].dropna()
@@ -2013,6 +2037,19 @@ def run_campaign_impact(
         else None
     )
 
+    revenue_uplift_pct = (
+        round(
+            (
+                (campaign_revenue - baseline_sales)
+                / abs(baseline_sales)
+            )
+            * 100,
+            2,
+        )
+        if baseline_sales != 0
+        else None
+    )
+
     # --------------------------------------------------------
     # Final contract
     # --------------------------------------------------------
@@ -2036,6 +2073,12 @@ def run_campaign_impact(
             "campaign_cost": _round(
                 campaign_cost
             ),
+
+            "baseline_sales": _round(
+                baseline_sales
+            ),
+
+            "revenue_uplift_pct": revenue_uplift_pct,
 
             "average_campaign_roas": (
                 round(

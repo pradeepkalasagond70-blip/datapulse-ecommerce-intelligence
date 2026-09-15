@@ -2109,6 +2109,11 @@ def run_campaign_impact(
             ),
         },
 
+        # Stable top-level aliases for KPI consumers that do not consume
+        # the nested campaign summary object.
+        "roi_pct": average_campaign_roi,
+        "revenue_uplift_pct": revenue_uplift_pct,
+
         "campaign_performance": (
             campaign_performance
         ),

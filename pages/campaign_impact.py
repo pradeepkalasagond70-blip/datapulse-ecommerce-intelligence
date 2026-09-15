@@ -536,7 +536,14 @@ roi = first_existing(
         "campaign_roi",
         "average_campaign_roi",
     ],
-    None,
+    first_existing(
+        results,
+        [
+            "roi_pct",
+            "average_campaign_roi",
+        ],
+        None,
+    ),
 )
 
 roas = first_existing(
@@ -567,7 +574,14 @@ uplift = first_existing(
         "campaign_uplift_pct",
         "revenue_impact_pct",
     ],
-    None,
+    first_existing(
+        results,
+        [
+            "revenue_uplift_pct",
+            "uplift_pct",
+        ],
+        None,
+    ),
 )
 
 

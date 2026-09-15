@@ -1271,7 +1271,7 @@ div.stButton > button:hover {
         18px
         rgba(15,23,42,0.035);
 
-    overflow: hidden;
+    overflow: visible;
     position: relative;
 }
 

@@ -2255,7 +2255,7 @@ with st.sidebar:
 # ============================================================
 
 render_html(
-    """
+    f"""
 <div class="dp-topbar">
 
     <div class="dp-search">

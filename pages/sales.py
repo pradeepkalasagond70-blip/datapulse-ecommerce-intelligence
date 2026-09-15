@@ -450,6 +450,7 @@ if available is False:
 # ============================================================
 
 summary = results.get("summary", {}) or {}
+growth_results = results.get("growth", {}) or {}
 
 
 # Support multiple reasonable summary key names so this page
@@ -524,7 +525,16 @@ growth = first_existing(
         "growth",
         "sales_growth_pct",
     ],
-    None,
+    first_existing(
+        growth_results,
+        [
+            "revenue_growth",
+            "revenue_growth_pct",
+            "growth_pct",
+            "growth",
+        ],
+        None,
+    ),
 )
 
 

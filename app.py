@@ -1373,7 +1373,7 @@ div.stButton > button:hover {
 
     color: #0F172A;
 
-    font-size: 25px;
+    font-size: 22px;
 
     font-weight: 850;
 

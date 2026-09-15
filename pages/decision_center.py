@@ -132,6 +132,34 @@ _render_html(
     font-size: 13px;
     line-height: 1.5;
 }
+.dp-decision-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+}
+.dp-decision-panel {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 15px 16px;
+}
+.dp-decision-panel-title {
+    color: #0F172A;
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 7px;
+}
+.dp-decision-panel-body {
+    color: #475569;
+    font-size: 12px;
+    line-height: 1.55;
+}
+.dp-decision-status {
+    color: #0F172A;
+    font-size: 20px;
+    font-weight: 850;
+}
 .dp-kpi-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -296,6 +324,7 @@ _render_html(
 }
 @media (max-width: 900px) {
     .dp-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .dp-decision-grid { grid-template-columns: 1fr; }
 }
 </style>
 """
@@ -359,16 +388,116 @@ if not dataset_name:
 # EXECUTIVE SUMMARY
 # ============================================================
 
+summary_data = (
+    executive_summary
+    if isinstance(executive_summary, dict)
+    else {}
+)
+
+business_status = _text(
+    summary_data.get(
+        "business_status"
+    ),
+    "Stable",
+)
+
+critical_count = _safe_int(
+    summary_data.get(
+        "critical_insights",
+        0,
+    )
+)
+
+high_priority_count = _safe_int(
+    summary_data.get(
+        "high_priority_insights",
+        0,
+    )
+)
+
+total_insight_count = _safe_int(
+    summary_data.get(
+        "total_insights",
+        len(insights)
+        if isinstance(insights, list)
+        else 0,
+    )
+)
+
+total_recommendation_count = _safe_int(
+    summary_data.get(
+        "total_recommendations",
+        len(recommendations)
+        if isinstance(recommendations, list)
+        else 0,
+    )
+)
+
+top_priorities = summary_data.get(
+    "top_priorities",
+    [],
+)
+
+if not isinstance(top_priorities, list):
+    top_priorities = []
+
 _render_html(
     f"""
 <div class="dp-card">
     <div class="dp-card-title">Executive Decision Summary</div>
     <div class="dp-card-subtitle">
-        {_esc(executive_summary, "DataPulse has analyzed the connected intelligence modules and prepared the available decision signals.")}
+        A plain-English view of the most important business signals and actions.
+    </div>
+</div>
+
+<div class="dp-decision-grid">
+    <div class="dp-decision-panel">
+        <div class="dp-decision-panel-title">Business Status</div>
+        <div class="dp-decision-status">{_esc(business_status)}</div>
+        <div class="dp-decision-panel-body">
+            Current priority level based on the strongest available signals.
+        </div>
+    </div>
+    <div class="dp-decision-panel">
+        <div class="dp-decision-panel-title">Why It Matters</div>
+        <div class="dp-decision-panel-body">
+            {critical_count + high_priority_count:,} high-priority signal(s) need attention across {total_insight_count:,} findings and {total_recommendation_count:,} recommended actions.
+        </div>
+    </div>
+</div>
+
+<div class="dp-decision-grid">
+    <div class="dp-decision-panel">
+        <div class="dp-decision-panel-title">Key Findings</div>
+        <div class="dp-decision-panel-body">
+            DataPulse identified {total_insight_count:,} business finding(s), including {critical_count:,} critical issue(s) and {high_priority_count:,} high-priority issue(s).
+        </div>
+    </div>
+    <div class="dp-decision-panel">
+        <div class="dp-decision-panel-title">Recommended Actions</div>
+        <div class="dp-decision-panel-body">
+            {total_recommendation_count:,} prioritized action(s) are available to guide the next business decisions.
+        </div>
     </div>
 </div>
 """
 )
+
+if critical_count:
+    _render_html(
+        '<div class="dp-card"><div class="dp-card-title">Critical Issues</div>'
+        '<div class="dp-card-subtitle">Immediate signals requiring executive attention.</div></div>'
+    )
+else:
+    st.info("No critical issues were identified by the available intelligence.")
+
+if high_priority_count:
+    _render_html(
+        '<div class="dp-card"><div class="dp-card-title">High-Priority Issues</div>'
+        '<div class="dp-card-subtitle">Important risks or opportunities to address soon.</div></div>'
+    )
+else:
+    st.info("No high-priority issues were identified by the available intelligence.")
 
 _render_html(
     f"""
@@ -593,27 +722,52 @@ else:
 
 
 # ============================================================
-# RAW RECOMMENDATION TABLE WHEN AVAILABLE
+# TOP PRIORITIES
 # ============================================================
 
-recommendations_df = _df(insight_result.get("recommendations_df"))
-
-if not recommendations_df.empty:
+if top_priorities:
     _render_html(
         """
 <div class="dp-card">
-    <div class="dp-card-title">Decision Register</div>
+    <div class="dp-card-title">Top Priorities</div>
     <div class="dp-card-subtitle">
-        Structured recommendation output generated by the insight engine.
+        The highest-priority actions selected by the decision layer.
     </div>
 </div>
 """
     )
-    st.dataframe(
-        recommendations_df,
-        use_container_width=True,
-        hide_index=True,
-    )
+
+    for rank, item in enumerate(top_priorities[:5], start=1):
+        if not isinstance(item, dict):
+            continue
+
+        title = item.get(
+            "title",
+            item.get("action", "Business Action"),
+        )
+        action = item.get(
+            "action",
+            item.get("description", ""),
+        )
+        reason = item.get(
+            "reason",
+            item.get("rationale", ""),
+        )
+
+        _render_html(
+            f"""
+<div class="dp-recommendation">
+    <div class="dp-rec-head">
+        <span class="dp-rec-rank">{rank}</span>
+        <span class="dp-rec-title">{_esc(title)}</span>
+    </div>
+    <div class="dp-rec-body">{_esc(action)}</div>
+    {f'<div class="dp-rec-meta">Why it matters: {_esc(reason)}</div>' if reason else ''}
+</div>
+"""
+        )
+else:
+    st.info("No top priorities are available yet.")
 
 
 # ============================================================

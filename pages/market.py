@@ -168,8 +168,8 @@ st.markdown(
         margin-top: 10px;
         min-width: 0;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        overflow: visible;
+        text-overflow: clip;
     }
 
     .metric-sub {

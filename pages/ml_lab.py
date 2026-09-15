@@ -1249,12 +1249,7 @@ with tabs[3]:
             st.metric(
                 "Anomaly Rate",
                 (
-                    f"{float(
-                        summary.get(
-                            'anomaly_rate_pct',
-                            0,
-                        )
-                    ):.1f}%"
+                    f"{float(summary.get('anomaly_rate_pct', 0)):.1f}%"
                 ),
             )
 

@@ -1716,8 +1716,10 @@ def _format_metric(value, currency=False):
         return str(value)
 
     if currency:
-        if abs(value) >= 1_000_000:
-            return f"₹{value / 1_000_000:.2f}M"
+        if abs(value) >= 10_000_000:
+            return f"₹{value / 10_000_000:.2f} Cr"
+        if abs(value) >= 100_000:
+            return f"₹{value / 100_000:.2f} L"
         if abs(value) >= 1_000:
             return f"₹{value / 1_000:.1f}K"
         return f"₹{value:,.0f}"

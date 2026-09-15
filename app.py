@@ -1,5 +1,6 @@
 from pathlib import Path
 from io import BytesIO
+from datetime import datetime
 
 import pandas as pd
 import streamlit as st
@@ -2276,7 +2277,7 @@ render_html(
     <div class="dp-top-right">
 
         <div class="dp-date">
-            ◷ &nbsp; Sep 14, 2026
+            ◷ &nbsp; {datetime.now().strftime("%b %d, %Y")}
         </div>
 
         <div class="dp-avatar">

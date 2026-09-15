@@ -1381,8 +1381,8 @@ div.stButton > button:hover {
     min-width: 0;
     line-height: 1.1;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible;
+    text-overflow: clip;
 }
 
 .dp-kpi-note {

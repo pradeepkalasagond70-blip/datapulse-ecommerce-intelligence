@@ -162,7 +162,7 @@ st.markdown(
 
     .metric-value {
         color: #0F172A;
-        font-size: 25px;
+        font-size: 22px;
         font-weight: 850;
         line-height: 1.1;
         margin-top: 10px;

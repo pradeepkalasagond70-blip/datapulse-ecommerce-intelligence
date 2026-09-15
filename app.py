@@ -1,6 +1,7 @@
 from pathlib import Path
 from io import BytesIO
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 import streamlit as st
@@ -2277,7 +2278,7 @@ render_html(
     <div class="dp-top-right">
 
         <div class="dp-date">
-            ◷ &nbsp; {datetime.now().strftime("%b %d, %Y")}
+            ◷ &nbsp; {datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%b %d, %Y")}
         </div>
 
         <div class="dp-avatar">

@@ -337,6 +337,22 @@ _render_html(
 
 }
 
+@media (max-width: 768px) {
+    .main .block-container { padding-left: .75rem !important; padding-right: .75rem !important; }
+    [data-testid="stHorizontalBlock"] { flex-direction: column !important; gap: 0 !important; }
+    [data-testid="column"] { width: 100% !important; flex: 1 1 100% !important; min-width: 0 !important; }
+    .dp-title { font-size: 25px; line-height: 1.12; overflow-wrap: anywhere; }
+    .dp-subtitle, .dp-card-subtitle, .dp-action-title, .dp-action-text, .dp-warning { overflow-wrap: anywhere; }
+    .dp-card { padding: 16px; }
+    .dp-kpi-grid { grid-template-columns: 1fr; gap: 10px; }
+    .dp-kpi { height: auto; min-height: 108px; padding: 15px; }
+    .dp-kpi-label, .dp-kpi-value { white-space: normal; overflow-wrap: anywhere; }
+    .dp-kpi-value { font-size: 20px; }
+    [data-testid="stPlotlyChart"] { max-width: 100% !important; overflow: hidden !important; }
+    [data-testid="stDataFrame"], [data-testid="stTable"] { max-width: 100% !important; overflow-x: auto !important; }
+    button { min-height: 44px; }
+}
+
 </style>
 """
 )

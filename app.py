@@ -164,6 +164,31 @@ header {
 .stApp {
     background: #F5F7FB !important;
     color: #0F172A !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+}
+
+html,
+body,
+[data-testid="stAppViewContainer"],
+.main,
+.main .block-container {
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+[data-testid="stHorizontalBlock"],
+[data-testid="column"],
+[data-testid="stVerticalBlock"] {
+    min-width: 0 !important;
+}
+
+[data-testid="stDataFrame"],
+[data-testid="stTable"],
+[data-testid="stPlotlyChart"],
+[data-testid="stDataEditor"] {
+    max-width: 100% !important;
+    min-width: 0 !important;
 }
 
 .main .block-container {
@@ -737,6 +762,7 @@ div.stButton > button:hover {
 .dp-intelligence-title,
 .dp-pipeline-title {
     letter-spacing: -0.15px;
+    overflow-wrap: anywhere;
 }
 
 /* ==========================================================
@@ -1651,6 +1677,121 @@ div.stButton > button:hover {
 }
 
 @media (max-width: 600px) {
+    .main .block-container {
+        padding-left: .75rem !important;
+        padding-right: .75rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    [data-testid="stHorizontalBlock"] {
+        flex-direction: column !important;
+        gap: 0 !important;
+    }
+
+    [data-testid="column"] {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+
+    .dp-topbar {
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .dp-search {
+        height: 44px;
+        padding-left: 11px;
+        padding-right: 11px;
+        font-size: 10px;
+    }
+
+    .dp-shortcut {
+        display: none;
+    }
+
+    .dp-top-right {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .dp-date {
+        flex: 1;
+        min-width: 0;
+        padding: 10px;
+        font-size: 9px;
+        white-space: nowrap;
+    }
+
+    .dp-page-title {
+        font-size: 25px;
+        line-height: 1.12;
+    }
+
+    .dp-page-description,
+    .dp-card-description,
+    .dp-intelligence-text,
+    .dp-pipeline-text,
+    .dp-info {
+        overflow-wrap: anywhere;
+    }
+
+    .dp-kpi {
+        height: auto;
+        min-height: 108px;
+        padding: 15px;
+    }
+
+    .dp-kpi-label,
+    .dp-kpi-value {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .dp-kpi-value {
+        font-size: 20px;
+    }
+
+    .dp-hero {
+        min-height: 335px;
+    }
+
+    .dp-hero-content {
+        padding: 24px 20px 22px;
+    }
+
+    .dp-hero-visual {
+        display: none;
+    }
+
+    .dp-hero-note {
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .dp-card {
+        padding: 16px;
+    }
+
+    .dp-built-by {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        row-gap: 6px;
+    }
+
+    [data-testid="stPlotlyChart"] {
+        overflow: hidden !important;
+    }
+
+    [data-testid="stDataFrame"],
+    [data-testid="stTable"] {
+        overflow-x: auto !important;
+    }
+
+    section[data-testid="stSidebar"] div.stButton > button {
+        min-height: 44px !important;
+    }
+
     .dp-hero {
         min-height: 330px;
     }

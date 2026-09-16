@@ -203,6 +203,21 @@ st.markdown(
         margin-top: 4px;
     }
 
+    @media (max-width: 768px) {
+        .main .block-container { padding-left: .75rem !important; padding-right: .75rem !important; }
+        [data-testid="stHorizontalBlock"] { flex-direction: column !important; gap: 0 !important; }
+        [data-testid="column"] { width: 100% !important; flex: 1 1 100% !important; min-width: 0 !important; }
+        .product-header { padding: 15px 16px; }
+        .product-header h1 { font-size: 24px; line-height: 1.15; overflow-wrap: anywhere; }
+        .product-header p, .section-title, .insight-title, .insight-text { overflow-wrap: anywhere; }
+        .metric-card { height: auto; min-height: 108px; padding: 15px; }
+        .metric-label, .metric-value { white-space: normal; overflow-wrap: anywhere; }
+        .metric-value { font-size: 20px; }
+        [data-testid="stPlotlyChart"] { max-width: 100% !important; overflow: hidden !important; }
+        [data-testid="stDataFrame"], [data-testid="stTable"] { max-width: 100% !important; overflow-x: auto !important; }
+        button { min-height: 44px; }
+    }
+
     </style>
     """,
     unsafe_allow_html=True,

@@ -186,6 +186,21 @@ st.html(
         margin: 0;
     }
 
+    @media (max-width: 768px) {
+        .main .block-container { padding-left: .75rem !important; padding-right: .75rem !important; }
+        [data-testid="stHorizontalBlock"] { flex-direction: column !important; gap: 0 !important; }
+        [data-testid="column"] { width: 100% !important; flex: 1 1 100% !important; min-width: 0 !important; }
+        .ml-hero { padding: 20px 18px; }
+        .ml-hero h1 { font-size: 25px; line-height: 1.12; overflow-wrap: anywhere; }
+        .ml-hero p, .section-title, .insight-title, .insight-text, .model-status strong, .model-status span { overflow-wrap: anywhere; }
+        .ml-card { height: auto; min-height: 118px; padding: 16px; }
+        .ml-card-value, .ml-card-subtitle { white-space: normal; overflow-wrap: anywhere; }
+        .ml-card-value { font-size: 23px; }
+        .model-status { height: auto; min-height: 100px; max-height: none; }
+        [data-testid="stDataFrame"], [data-testid="stTable"] { max-width: 100% !important; overflow-x: auto !important; }
+        button { min-height: 44px; }
+    }
+
     </style>
     """,
 

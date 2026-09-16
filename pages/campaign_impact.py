@@ -206,7 +206,8 @@ st.markdown(
     @media (max-width: 768px) {
         .main .block-container { padding-left: .75rem !important; padding-right: .75rem !important; }
         [data-testid="stHorizontalBlock"] { flex-direction: column !important; gap: 0 !important; }
-        [data-testid="column"] { width: 100% !important; flex: 1 1 100% !important; min-width: 0 !important; }
+        [data-testid="stColumn"], .stColumn { width: 100% !important; max-width: 100% !important; flex: 1 1 100% !important; min-width: 0 !important; }
+        [data-testid="stColumn"] > div, .stColumn > div { width: 100% !important; max-width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; }
         .campaign-header { padding: 15px 16px; }
         .campaign-header h1 { font-size: 24px; line-height: 1.15; overflow-wrap: anywhere; }
         .campaign-header p, .section-title, .insight-title, .insight-text { overflow-wrap: anywhere; }
@@ -214,7 +215,9 @@ st.markdown(
         .metric-label, .metric-value { white-space: normal; overflow-wrap: anywhere; }
         .metric-value { font-size: 20px; }
         [data-testid="stPlotlyChart"] { max-width: 100% !important; overflow: hidden !important; }
-        [data-testid="stDataFrame"], [data-testid="stTable"] { max-width: 100% !important; overflow-x: auto !important; }
+        [data-testid="stDataFrame"], [data-testid="stTable"], [data-testid="stDataEditor"] { max-width: 100% !important; min-width: 0 !important; overflow-x: auto !important; }
+        [data-testid="stPlotlyChart"] > div, [data-testid="stPlotlyChart"] iframe { width: 100% !important; max-width: 100% !important; }
+        input, textarea, select, [data-baseweb="select"] { max-width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; }
         button { min-height: 44px; }
     }
 

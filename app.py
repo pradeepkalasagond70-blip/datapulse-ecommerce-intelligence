@@ -178,7 +178,8 @@ body,
 }
 
 [data-testid="stHorizontalBlock"],
-[data-testid="column"],
+[data-testid="stColumn"],
+.stColumn,
 [data-testid="stVerticalBlock"] {
     min-width: 0 !important;
 }
@@ -1688,9 +1689,20 @@ div.stButton > button:hover {
         gap: 0 !important;
     }
 
-    [data-testid="column"] {
+    [data-testid="stColumn"],
+    .stColumn {
         width: 100% !important;
         flex: 1 1 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+
+    [data-testid="stColumn"] > div,
+    .stColumn > div {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
     }
 
     .dp-topbar {
@@ -1786,6 +1798,30 @@ div.stButton > button:hover {
     [data-testid="stDataFrame"],
     [data-testid="stTable"] {
         overflow-x: auto !important;
+        max-width: 100% !important;
+    }
+
+    [data-testid="stDataFrame"] > div,
+    [data-testid="stDataEditor"] > div,
+    [role="grid"] {
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    [data-testid="stPlotlyChart"] > div,
+    [data-testid="stPlotlyChart"] iframe {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    input,
+    textarea,
+    select,
+    [data-baseweb="select"],
+    [data-testid="stFileUploader"] {
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
     }
 
     section[data-testid="stSidebar"] div.stButton > button {
